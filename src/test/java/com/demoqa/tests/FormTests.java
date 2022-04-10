@@ -7,25 +7,27 @@ import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
+import static java.lang.String.format;
 
 public class FormTests {
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     Faker faker = new Faker();
 
-    String subject = "Maths", hobbie = "Music", state = "NCR", city = "Delhi";
-
+    String gender = "Other", subject = "Maths", hobby = "Music", state = "NCR", city = "Delhi", dayOfBirth = "14", monthOfBirth= "January", yearOfBirth = "1993";
     String firstName = faker.name().firstName(),
             lastName = faker.name().lastName(),
             userEmail = faker.internet().emailAddress(),
             userNumber = faker.number().digits(10),
             currentAddress = faker.rickAndMorty().quote();
 
-   // String expectedFullName = format("%s %s", firstName, lastName);
+    String expectedFullName = format("%s %s", firstName, lastName);
+    String expectedDateOfBirth = format("%s %s", dayOfBirth, monthOfBirth,"%s", yearOfBirth);
+    String expectedStateAndCity = format("%s %s", state, city);
 
 
     @BeforeAll
     static void setUp() {
-        Configuration.holdBrowserOpen = true;
+        // Configuration.holdBrowserOpen = true;
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1600x900";
 
@@ -40,11 +42,11 @@ public class FormTests {
                     .setFirstName(firstName)
                     .setLastName(lastName)
                     .setUserEmail(userEmail)
-                    .setGender("Other")
+                    .setGender(gender)
                     .setUserNumber(userNumber)
-                    .setBirthDate("14", "January", "1993")
+                    .setBirthDate(dayOfBirth, monthOfBirth, yearOfBirth)
                     .setSubject(subject)
-                    .setHobbie(hobbie)
+                    .setHobby(hobby)
                     .setPicture()
                     .setAddress(currentAddress)
                     .setState(state)
@@ -56,8 +58,18 @@ public class FormTests {
         $("#submit").click();
 
         //Asserts
-        $(".table-responsive").shouldHave(text("Ivan Ivan Ivanov"), text("Ivan@ya.ru"), text("Other"), text("10 April,1990"), text("Music"), text("file.png"),text("smth"), text("NCR Delhi"));
-
+        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+        this.registrationFormPage
+                .checkResult("Student Name", expectedFullName)
+                .checkResult("Student Email", userEmail)
+                .checkResult("Gender", gender)
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", expectedDateOfBirth)
+                .checkResult("Subjects", subject)
+                .checkResult("Hobbies", hobby)
+                .checkResult("Picture", "file.png")
+                .checkResult("Address", currentAddress)
+                .checkResult("State and City", expectedStateAndCity);
 
 
 

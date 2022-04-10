@@ -4,6 +4,7 @@ package com.demoqa.pages;
 import com.codeborne.selenide.SelenideElement;
 import com.demoqa.pages.components.CalendarComponent;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -66,8 +67,8 @@ public class RegistrationFormPage {
         return this;
     }
 
-    public RegistrationFormPage setHobbie(String hobbie) {
-        hobbiesSelect.$(byText(hobbie)).click();
+    public RegistrationFormPage setHobby(String hobby) {
+        hobbiesSelect.$(byText(hobby)).click();
         return this;
     }
 
@@ -90,6 +91,12 @@ public class RegistrationFormPage {
     public RegistrationFormPage setCity(String city) {
         listOfCities.click();
         $(byText(city)).click();
+        return this;
+    }
+
+    public RegistrationFormPage checkResult(String registrationFormText, String registrationFormValue) {
+        $(".table-responsive").$(byText(registrationFormText))
+                .parent().shouldHave(text(registrationFormValue));
         return this;
     }
 }
