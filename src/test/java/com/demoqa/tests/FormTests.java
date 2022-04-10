@@ -14,7 +14,7 @@ public class FormTests {
     Faker faker = new Faker();
 
     String gender = "Other", subject = "Maths", hobby = "Music", state = "NCR", city = "Delhi", dayOfBirth = "14", monthOfBirth= "January", yearOfBirth = "1993";
-    String firstName = faker.name().firstName(),
+    String  firstName = faker.name().firstName(),
             lastName = faker.name().lastName(),
             userEmail = faker.internet().emailAddress(),
             userNumber = faker.number().digits(10),
@@ -36,9 +36,9 @@ public class FormTests {
 
     @Test
     void fillFormTest() {
-        open("/automation-practice-form");
 
         registrationFormPage
+                    .openPage()
                     .setFirstName(firstName)
                     .setLastName(lastName)
                     .setUserEmail(userEmail)
@@ -53,8 +53,7 @@ public class FormTests {
                     .setCity(city);
 
 
-        executeJavaScript("$('footer').remove()");
-        executeJavaScript("$('#fixedban').remove()");
+
         $("#submit").click();
 
         //Asserts

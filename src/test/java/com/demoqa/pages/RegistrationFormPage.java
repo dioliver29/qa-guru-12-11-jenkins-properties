@@ -6,7 +6,8 @@ import com.demoqa.pages.components.CalendarComponent;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class RegistrationFormPage {
     CalendarComponent calendar = new CalendarComponent();
@@ -29,6 +30,13 @@ public class RegistrationFormPage {
 
     // actions
 
+    public RegistrationFormPage openPage() {
+        open("/automation-practice-form");
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
+        return this;
+    }
     public RegistrationFormPage setFirstName(String firstName) {
         firstNameInput.setValue(firstName);
         return this;
