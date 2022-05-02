@@ -1,15 +1,11 @@
 package com.demoqa.tests;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
 import com.github.javafaker.Faker;
-import io.qameta.allure.Allure;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
-
-import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -62,16 +58,7 @@ public class FormTests {
         steps.setCity(city);
 
 
-        step("Проверка клика на заполненную форму", () -> {
-                    $("#submit").click();
-            Allure.getLifecycle().addAttachment(
-                    "Видео с кликом",
-                    "video/webm",
-                    "webm",
-                    WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8)
-            );
-
-        });
+        step("Проверка клика на заполненную форму", () -> $("#submit").click());
 
 
         //Asserts
