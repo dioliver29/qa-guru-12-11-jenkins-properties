@@ -1,12 +1,19 @@
 package com.demoqa.tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Allure;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
+
+import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 import static java.lang.String.format;
 
 public class FormTests {
@@ -36,25 +43,36 @@ public class FormTests {
 
     @Test
     void fillFormTest() {
-
-        registrationFormPage
-                    .openPage()
-                    .setFirstName(firstName)
-                    .setLastName(lastName)
-                    .setUserEmail(userEmail)
-                    .setGender(gender)
-                    .setUserNumber(userNumber)
-                    .setBirthDate(dayOfBirth, monthOfBirth, yearOfBirth)
-                    .setSubject(subject)
-                    .setHobby(hobby)
-                    .setPicture()
-                    .setAddress(currentAddress)
-                    .setState(state)
-                    .setCity(city);
+        SelenideLogger.addListener("allure", new AllureSelenide());
+        RegistrationFormPage steps = new RegistrationFormPage();
 
 
+        steps.openPage();
+        steps.setFirstName(firstName);
+        steps.setLastName(lastName);
+        steps.setUserEmail(userEmail);
+        steps.setGender(gender);
+        steps.setUserNumber(userNumber);
+        steps.setBirthDate(dayOfBirth, monthOfBirth, yearOfBirth);
+        steps.setSubject(subject);
+        steps.setHobby(hobby);
+        steps.setPicture();
+        steps.setAddress(currentAddress);
+        steps.setState(state);
+        steps.setCity(city);
 
-        $("#submit").click();
+
+        step("Проверка клика на заполненную форму", () -> {
+                    $("#submit").click();
+            Allure.getLifecycle().addAttachment(
+                    "Видео с кликом",
+                    "video/webm",
+                    "webm",
+                    WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8)
+            );
+
+        });
+
 
         //Asserts
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
