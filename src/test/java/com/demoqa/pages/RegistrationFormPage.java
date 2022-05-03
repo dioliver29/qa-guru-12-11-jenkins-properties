@@ -117,21 +117,21 @@ public class RegistrationFormPage {
     public RegistrationFormPage setCity(String city) {
         listOfCities.click();
         $(byText(city)).click();
-        attachScreenshot();
+      //  attachScreenshot();
         return this;
     }
 
-    @Step("Проверяем введенные данные")
+    @Step("{registrationFormText} = {registrationFormValue}")
     public RegistrationFormPage checkResult(String registrationFormText, String registrationFormValue) {
         $(".table-responsive").$(byText(registrationFormText))
                 .parent().shouldHave(text(registrationFormValue));
         return this;
     }
 
-    @Attachment(value = "Скриншот теста", type = "image/png", fileExtension = "png")
+    /*@Attachment(value = "Скриншот теста", type = "image/png", fileExtension = "png")
     public byte[] attachScreenshot() {
         return ((TakesScreenshot) WebDriverRunner.getWebDriver())
                 .getScreenshotAs(OutputType.BYTES);
-    }
+    }*/
 
 }

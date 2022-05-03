@@ -1,43 +1,21 @@
 package com.demoqa.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
-import com.github.javafaker.Faker;
+import io.qameta.allure.Owner;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
 import static io.qameta.allure.Allure.step;
-import static java.lang.String.format;
 
-public class FormTests {
-    RegistrationFormPage registrationFormPage = new RegistrationFormPage();
-    Faker faker = new Faker();
-
-    String gender = "Other", subject = "Maths", hobby = "Music", state = "NCR", city = "Delhi", dayOfBirth = "14", monthOfBirth= "January", yearOfBirth = "1993";
-    String  firstName = faker.name().firstName(),
-            lastName = faker.name().lastName(),
-            userEmail = faker.internet().emailAddress(),
-            userNumber = faker.number().digits(10),
-            currentAddress = faker.rickAndMorty().quote();
-
-    String expectedFullName = format("%s %s", firstName, lastName);
-    String expectedDateOfBirth = format("%s %s", dayOfBirth, monthOfBirth,"%s", yearOfBirth);
-    String expectedStateAndCity = format("%s %s", state, city);
-
-
-    @BeforeAll
-    static void setUp() {
-        // Configuration.holdBrowserOpen = true;
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1600x900";
-
-    }
-
+public class FormTests extends TestBase{
 
     @Test
+    @Owner("stikheeva")
+    @DisplayName("Successful fill registration test")
     void fillFormTest() {
         SelenideLogger.addListener("allure", new AllureSelenide());
         RegistrationFormPage steps = new RegistrationFormPage();
@@ -62,7 +40,8 @@ public class FormTests {
 
 
         //Asserts
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+        step("Проверка текста в заголовке формы" , () ->
+        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form")));
         this.registrationFormPage
                 .checkResult("Student Name", expectedFullName)
                 .checkResult("Student Email", userEmail)
@@ -74,10 +53,6 @@ public class FormTests {
                 .checkResult("Picture", "file.png")
                 .checkResult("Address", currentAddress)
                 .checkResult("State and City", expectedStateAndCity);
-
-
-
-
     }
 
 }
