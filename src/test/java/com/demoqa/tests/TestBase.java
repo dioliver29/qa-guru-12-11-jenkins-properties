@@ -28,13 +28,14 @@ public class TestBase {
     String expectedDateOfBirth = format("%s %s", dayOfBirth, monthOfBirth,"%s", yearOfBirth);
     String expectedStateAndCity = format("%s %s", state, city);
 
-    public static String remoteSelenideUrl = "selenoid.autotests.cloud/";
+    public static String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
+    public static String baseUrl = System.getProperty("baseUrl");
 
 
     @BeforeAll
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.baseUrl = baseUrl;
         Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
