@@ -8,10 +8,12 @@ import com.github.javafaker.Faker;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static java.lang.String.format;
 
+@Tag("systemProperties")
 public class TestBase {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
@@ -29,14 +31,14 @@ public class TestBase {
     String expectedStateAndCity = format("%s %s", state, city);
 
     public static String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
-    //public static String baseUrl = System.getProperty("baseUrl");
+    public static String baseUrl = System.getProperty("baseUrl");
 
 
     @BeforeAll
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        Configuration.baseUrl = System.getProperty("baseUrl");
-        Configuration.remote = "https://user1:1234@" + System.getProperty("remoteSelenideUrl") + "wd/hub";
+        Configuration.baseUrl = baseUrl;
+        Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);

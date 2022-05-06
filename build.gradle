@@ -15,8 +15,8 @@ dependencies {
             "com.github.javafaker:javafaker:1.0.2",
             "org.junit.jupiter:junit-jupiter:5.8.2",
             "org.slf4j:slf4j-simple:1.7.36",
-            "org.slf4j:slf4j-simple:1.7.36",
-            "io.qameta.allure:allure-selenide:2.17.3"
+            "io.qameta.allure:allure-selenide:2.17.3",
+            "org.aeonbits.owner:owner:1.0.4"
     )
 }
 allure {
@@ -37,14 +37,20 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-tasks.withType(Test) {
-    systemProperties(System.getProperties())
+//tasks.withType(Test) {
+//    systemProperties(System.getProperties())
+//    useJUnitPlatform()
+//}
+
+task systemProperties(type: Test) {
+    useJUnitPlatform{
+        includeTags "systemProperties"
+    }
 }
 
-tasks.withType(TestBase) {
-    systemProperties(System.getProperties())
+task owner(type: Test) {
+    useJUnitPlatform{
+        includeTags "owner"
+    }
 }
 
-test {
-    useJUnitPlatform()
-}
