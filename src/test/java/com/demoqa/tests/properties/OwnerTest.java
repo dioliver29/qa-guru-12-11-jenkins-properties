@@ -11,7 +11,7 @@ public class OwnerTest {
     @Test
     @Tag("owner")
     void loginTest() {
-        String login = config.login();
-        String password = config.password();
+      //  String login = config.login();
+      //  String password = config.password();
     }
 }

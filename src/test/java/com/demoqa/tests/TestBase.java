@@ -2,19 +2,27 @@ package com.demoqa.tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import com.demoqa.config.CredentialsConfig;
 import com.demoqa.helpers.Attach;
 import com.demoqa.pages.RegistrationFormPage;
 import com.github.javafaker.Faker;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import com.demoqa.config.CredentialsConfig;
+import org.aeonbits.owner.ConfigFactory;
 
 import static java.lang.String.format;
 
 @Tag("systemProperties")
 public class TestBase {
+
+    static CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class);
+    static String login = config.login();
+    static String password = config.password();
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     Faker faker = new Faker();
@@ -40,7 +48,7 @@ public class TestBase {
        // Configuration.baseUrl = System.getProperty("baseUrl");
        // Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = String.format("https://%s:%s@selenoid.autotests.cloud/wd/hub", login, password);
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
