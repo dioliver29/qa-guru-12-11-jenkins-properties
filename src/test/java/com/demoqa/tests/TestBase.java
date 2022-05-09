@@ -31,14 +31,16 @@ public class TestBase {
     String expectedStateAndCity = format("%s %s", state, city);
 
     public static String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
-    public static String baseUrl = System.getProperty("baseUrl");
+    //public static String baseUrl1 = System.getProperty("baseUrl");
 
 
     @BeforeAll
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        Configuration.baseUrl = baseUrl;
-        Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "wd/hub";
+       // Configuration.baseUrl = System.getProperty("baseUrl");
+       // Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
