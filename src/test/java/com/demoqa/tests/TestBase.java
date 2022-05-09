@@ -12,8 +12,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import com.demoqa.config.CredentialsConfig;
-import org.aeonbits.owner.ConfigFactory;
 
 import static java.lang.String.format;
 
@@ -38,17 +36,17 @@ public class TestBase {
     String expectedDateOfBirth = format("%s %s", dayOfBirth, monthOfBirth,"%s", yearOfBirth);
     String expectedStateAndCity = format("%s %s", state, city);
 
-    public static String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
-    //public static String baseUrl1 = System.getProperty("baseUrl");
+    String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
+    String baseUrl1 = System.getProperty("baseUrl");
 
 
     @BeforeAll
-    static void setUp() {
+    void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-       // Configuration.baseUrl = System.getProperty("baseUrl");
+        Configuration.baseUrl = System.getProperty("baseUrl");
        // Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.remote = String.format("https://%s:%s@selenoid.autotests.cloud/wd/hub", login, password);
+       // Configuration.baseUrl = "https://demoqa.com";
+        Configuration.remote = String.format("https://%s:%s"+"@"+ remoteSelenideUrl +"/wd/hub", login, password);
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
