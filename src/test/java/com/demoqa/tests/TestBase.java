@@ -36,17 +36,19 @@ public class TestBase {
     String expectedDateOfBirth = format("%s %s", dayOfBirth, monthOfBirth,"%s", yearOfBirth);
     String expectedStateAndCity = format("%s %s", state, city);
 
-    String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
-    String baseUrl1 = System.getProperty("baseUrl");
+    //static String remoteSelenideUrl = System.getProperty("remoteSelenideUrl");
+    //static String baseUrl = System.getProperty("baseUrl");
 
 
     @BeforeAll
-    void setUp() {
+    static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.baseUrl = System.getProperty("baseUrl");
-       // Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
-       // Configuration.baseUrl = "https://demoqa.com";
-        Configuration.remote = String.format("https://%s:%s"+"@"+ remoteSelenideUrl +"/wd/hub", login, password);
+       /*
+        Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
+        Configuration.baseUrl = "https://demoqa.com";
+       */
+        Configuration.remote = String.format("https://%s:%s"+"@"+ System.getProperty("remoteSelenideUrl") +"/wd/hub", login, password);
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
