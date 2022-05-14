@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static java.lang.String.format;
 
 @Tag("systemProperties")
@@ -44,6 +45,7 @@ public class TestBase {
     static void setUp() {
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.baseUrl = System.getProperty("baseUrl");
+        //Configuration.baseUrl = "https://demoqa.com";
        /*
         Configuration.remote = "https://user1:1234@" + remoteSelenideUrl + "/wd/hub";
         Configuration.baseUrl = "https://demoqa.com";
